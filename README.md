@@ -1,12 +1,12 @@
 # @Queryable
 
-**Queryable** is a Maven plugin to generate quickly Java classes for **JAX-RS** controllers using with **Quarkus** and **Hibernate Panache**, with **Hibernate**  @filters on @entity classes annotated.
+**Queryable** is a Maven plugin for quickly generating Java classes of **JAX-RS** controllers using **Quarkus** and **Hibernate Panache**, with **Hibernate**  @filters on @entity annotated classes.
  
 # Scenario 
 
- Normally we use the following paradigm to developing quarkus rest app.
+ Normally we use the following paradigm to develope quarkus rest app.
  
-1 - Let's start writing our entities with some hibernate filters:
+1 - Let's start with writing our entities with some hibernate filters:
 ```
 @Entity
 @Table(name = "customers")
@@ -34,7 +34,7 @@ public class Customer extends PanacheEntityBase {
     public String mail;
 }
 ```
-2 - We continue by writing one rest controller for each entity, as: 
+2 - We continue by writing one rest controller for each entity, with a customized getSearch() method to enforce filter conditions on its field: 
 
 ```
 @Path("/api/v1/customers")
@@ -75,15 +75,15 @@ public class CustomerServiceRs extends RsRepositoryServiceV3<Customer, String> {
 
 }
 ```
-3 - the customer api, will be querable using:
+3 - the customer api, will be querable with:
 ```
 https://prj.n-ess.it/api/v1/customers?obj.code=xxxx&like.name=yyyy
 ```
 
 The boring process is:
-- the writing of hibernate filters
-- the writing of search conditions using query parameters.
-With our annotation set, we will generate at request using maven goal! 
+- writing of hibernate filters
+- writing of search conditions by using query parameters.
+With our annotation set, we will generate them at once by using a maven goal! 
 
 
 ## Setup
@@ -135,16 +135,17 @@ mvn queryable:source
 
 ## JPA @Entity classes location
 
-The plugins searches for java JPA @Entity classes that extends io.quarkus.hibernate.orm.panache.PanacheEntityBase in specified folder location {groupId}\model
+The plugins searches for java JPA @Entity classes that extend io.quarkus.hibernate.orm.panache.PanacheEntityBase in the well-known folder location {groupId}\model
 
 ## JAX-RS classes location 
 
-The plugins searches for java classes (JAX-RS @Path @Singleton classes) in specified folder location {groupId}\service/rs with naming convention...
+The plugins searches for java classes (JAX-RS @Path @Singleton classes) in the well-known folder location {groupId}\service/rs according to our naming convention.
+If it doesn't find them, it will creates them. 
 
 ## Usage
 ### Q annotations
 
-We can attach them to classes or fields, annotations by themselves have no effect on the execution of a program.
+We can attach Q annoations of the following kinds to model classes or fields. Annotations by themselves have no effect on the execution of a program.
 
 - Q (class or field level)
 - QExclude (class level)
